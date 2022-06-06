@@ -8,9 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showSettingsSheet = false
+    @State private var topColor = Color.red
+    @State private var bottomColor = Color.blue
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        LinearGradient(gradient: Gradient(colors: [topColor, bottomColor]), startPoint: .topLeading, endPoint: .bottomTrailing)
+            .ignoresSafeArea()
+            .onTapGesture {
+                showSettingsSheet.toggle()
+            }
+            .sheet(isPresented: $showSettingsSheet) {
+                Form {
+                    ColorPicker("Top Color", selection: $topColor)
+                    ColorPicker("Bottom Color", selection: $bottomColor)
+                    Button("Done") {
+                        showSettingsSheet.toggle()
+                    }
+                }
+            }
     }
 }
 
